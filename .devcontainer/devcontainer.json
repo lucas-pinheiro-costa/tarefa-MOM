@@ -1,0 +1,38 @@
+{
+    "name": "Sistema de Precificação Dinâmica (Python + RabbitMQ)",
+
+    // Aponta para o nosso novo docker-compose.yml
+    "dockerComposeFile": "docker-compose.yml",
+
+    // Define qual serviço do compose corresponde ao nosso ambiente de dev
+    "service": "app",
+
+    // Define o workspace dentro do contêiner
+    "workspaceFolder": "/workspace",
+
+    // 'features' para adicionar linguagens e ferramentas
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.11"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    },
+
+    "forwardPorts": [
+        15672, // Interface de Gerenciamento do RabbitMQ
+        5000   // Porta para nossa futura API Gateway
+    ],
+
+    "postCreateCommand": "python3 -m venv .venv && .venv/bin/pip install --upgrade pip && if [ -f requirements.txt ]; then .venv/bin/pip install -r requirements.txt; fi",
+
+    // Define o usuário remoto para ser não-root
+    "remoteUser": "vscode"
+}

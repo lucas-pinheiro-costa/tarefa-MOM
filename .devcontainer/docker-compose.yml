@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  # 1. O serviço da nossa aplicação Python
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Mapeia a pasta atual do projeto para dentro do contêiner
+      - ..:/workspace:cached
+    command: sleep infinity # Mantém o contêiner rodando
+    depends_on:
+      # Garante que o RabbitMQ inicie antes da nossa aplicação
+      - rabbitmq
+
+  # 2. O serviço do RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      # Mapeia as portas para a sua máquina local
+      - "5672:5672"   # Porta do protocolo AMQP
+      - "15672:15672" # Porta da Interface de Gerenciamento Web
