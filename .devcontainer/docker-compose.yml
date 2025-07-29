@@ -9,6 +9,8 @@ services:
     volumes:
       # Mapeia a pasta atual do projeto para dentro do contêiner
       - ..:/workspace:cached
+    env_file:
+      - ../.env  # Adiciona o arquivo .env para variáveis de ambiente
     command: sleep infinity # Mantém o contêiner rodando
     depends_on:
       # Garante que o RabbitMQ inicie antes da nossa aplicação
