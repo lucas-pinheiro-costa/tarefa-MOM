@@ -1,2 +1,5 @@
 pika
 psycopg2-binary
+fastapi
+uvicorn[standard]
+python-dotenv # python-dotenv serve para facilitar o carregamento do arquivo .env.
