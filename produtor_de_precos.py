@@ -4,7 +4,8 @@ import time
 import random
 
 # --- Configurações ---
-RABBITMQ_HOST = 'localhost'
+# RABBITMQ_HOST = 'localhost' # Aqui usamos o nome do serviço localmente
+RABBITMQ_HOST = 'rabbitmq' # Usamos o nome do serviço do docker-compose
 EXCHANGE_NAME = 'price_update_topic' # Nome da nossa exchange (tópico)
 
 # --- Conexão com RabbitMQ ---
