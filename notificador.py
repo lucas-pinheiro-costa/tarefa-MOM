@@ -1,5 +1,5 @@
 """
-ste worker tem uma única e simples tarefa: ouvir a fila de notificações e (simular) o envio de um e-mail.
+Este worker tem uma única e simples tarefa: ouvir a fila de notificações e (simular) o envio de um e-mail.
 """
 
 import pika
