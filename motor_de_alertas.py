@@ -40,7 +40,7 @@ def main():
     channel = connection.channel()
 
     # Consome da exchange de preços
-    channel.exchange_declare(exchange=EXCHANGE_NAME, exchange_type='fanout')
+    channel.exchange_declare(exchange=EXCHANGE_NAME, exchange_type='fanout', durable=True)
     result = channel.queue_declare(queue='', exclusive=True)
     queue_name = result.method.queue
     channel.queue_bind(exchange=EXCHANGE_NAME, queue=queue_name)
@@ -51,11 +51,21 @@ def main():
     print("✅ [Motor de Alertas] Pronto. Verificando preços contra alertas...")
 
     def callback(ch, method, properties, body):
-        dados_do_preco = json.loads(body)
-        preco_atual = dados_do_preco['preco']
-        id_voo = dados_do_preco['id_voo']
-        
-        print(f"🧠 [Motor de Alertas] Preço recebido: {id_voo} por R${preco_atual}")
+        try:
+            dados_do_preco = json.loads(body)
+            
+            # Verifica se a mensagem tem os campos obrigatórios
+            if 'preco' not in dados_do_preco or 'id_voo' not in dados_do_preco:
+                print(f"⚠️ [Motor de Alertas] Mensagem malformada ignorada: {dados_do_preco}")
+                return
+                
+            preco_atual = dados_do_preco['preco']
+            id_voo = dados_do_preco['id_voo']
+            
+            print(f"🧠 [Motor de Alertas] Preço recebido: {id_voo} por R${preco_atual}")
+        except json.JSONDecodeError:
+            print(f"❌ [Motor de Alertas] Mensagem com JSON inválido ignorada")
+            return
         
         try:
             with db_conn.cursor() as cur:

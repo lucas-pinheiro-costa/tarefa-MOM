@@ -65,9 +65,9 @@ O sistema é composto por **7 componentes principais**:
 ```
                                    ┌─ [Motor de Alertas] ─→ [Fila de Notificações] ─→ [Notificador]
                                    │                                                        │
-[Produtor] ─→ [RabbitMQ] ─┬─ [Arquivador] ─→ [PostgreSQL] ←─ [API Gateway] ←─ [Usuário]   │
-                          │        │                                                       │
-                          │        └─ Mensagens problemáticas ─→ [DLQ] ←─ [Monitor DLQ] ←─┘
+[Produtor] ─→ [RabbitMQ] ─┬─ [Arquivador] ─→ [PostgreSQL] ←─ [API Gateway] ←─ [Usuário]     │
+                          │        │                                                        │
+                          │        └─ Mensagens problemáticas ─→ [DLQ] ←─ [Monitor DLQ] ←───┘
                           │
                           └─ [Outros Consumidores...]
 ```
@@ -207,6 +207,7 @@ Esta demonstração mostra como um preço de voo é capturado, processado, armaz
           "destino": "GRU",
           "preco_desejado": 2000.00
         }'
+   # O alerta precisa ser entre 500 e 4000 $
    ```
 
 2. **Observar os terminais**:
